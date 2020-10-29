@@ -1,0 +1,68 @@
+@startuml
+
+package loader #DDDDDD{
+  interface TransactionLoader<S,O> {
+  }
+  class CapitaleOneLoader implements TransactionLoader {
+  }
+  class DesjardinsCCLoader implements TransactionLoader {
+  }
+  class DesjardinsEOPLoader implements TransactionLoader {
+  }
+}
+package parser #DDDDDD{
+interface TransactionParser<T,R> {
+  +parse(T):R
+}
+interface CsvParser<R> extends TransactionParser {
+  +parse(File): List<R>
+  +default parse(File): List<R>
+}
+interface PdfParser<R> extends TransactionParser {
++parse(File): List<R>
++default extrctContent(File):Stream<String>
+}
+class CapitaleOneCCParser implements CsvParser{
+ +parse(File):List<CapitaleOneCCTransaction>
+}
+class DesjardinsCCParser implements PdfParser {
+ +parse(File):List<DesjardinsCCTransaction>
+}
+class DesjardinsEopParser implements CsvParser {
+    +parse(File):List<DesjardinsEOPTransaction>
+}
+}
+package repository #DDDDDD{
+ interface TransactionRepository extends JpaRepository
+ interface CategoryRepository extends JpaRepository
+}
+package model #DDDDDD{
+class CapitaleOneCCTransaction
+class DesjardinsCCTransaction
+class DesjardinsEOPTransaction
+}
+package view #DDDDDD{
+class Transaction
+class TransactionCategory
+enum TransactionType {
+    +DEBIT
+    +CREDIT
+}
+enum TransactionScope{
+ +PERSONAL
+ +BUSINESS
+}
+
+CapitaleOneLoader <..TransactionParser: use <
+DesjardinsCCLoader <..TransactionParser: use <
+DesjardinsEOPLoader <..TransactionParser: use <
+CapitaleOneCCParser <..CapitaleOneCCTransaction: use <
+DesjardinsCCParser <.. DesjardinsCCTransaction: use <
+DesjardinsEopParser <.. DesjardinsEOPTransaction: use <
+Transaction <..TransactionCategory: use <
+Transaction <..TransactionType: use <
+Transaction <..TransactionScope: use <
+TransactionLoader <..JpaRepository: use <
+TransactionRepository <..Transaction: use <
+CategoryRepository <..TransactionCategory: use <
+@enduml

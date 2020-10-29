@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: false
     properties:
       hibernate.format_sql: true
@@ -17,3 +17,22 @@ spring:
     allow-bean-definition-overriding: true
 server:
   port: 8097
+default:
+  report:
+    month-begining-index: 3
+    month-ending-index: 5
+    minimun-line-len: 6
+    description-begining-index: 5
+    date-begining-index: 0
+    date-ending-index: 2
+    transaction-number-index: 4
+    extension-len-index: 4
+    line-delimitation-pattern: "\\r?\\n"
+    credit-amount-indicator: CR
+    default-category-desc: "NA"
+    locations:
+      capitale-one: classpath:/data/releves/co
+      desjardins-cc: classpath:/data/releves/dcc
+      desjardins-eop: classpath:/data/releves/eop
+
+

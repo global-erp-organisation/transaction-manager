@@ -1,8 +1,11 @@
 package com.ia.transaction.parser;
 
 import com.ia.transaction.model.DesjardinsEOPTransaction;
+import com.ia.transaction.model.ReportProperties;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +17,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
+@RequiredArgsConstructor
 public class DesjardinsEopParser implements CsvParser<DesjardinsEOPTransaction> {
+    private final ReportProperties properties;
     @Override
     public List<DesjardinsEOPTransaction> parse(File input) {
-        return parse(input, () -> DesjardinsEOPTransaction.class, () -> 0)
-                .stream().filter(t -> StringUtils.isNotEmpty(t.getAccountType())).collect(Collectors.toList());
+        return parse(input, () -> DesjardinsEOPTransaction.class, () -> 0, () -> log)
+                .stream().filter(t -> StringUtils.isNotEmpty(t.getAccountType()))
+                .peek(t->t.setCategory(properties.getDefaultCategoryDesc()))
+                .collect(Collectors.toList());
     }
 }

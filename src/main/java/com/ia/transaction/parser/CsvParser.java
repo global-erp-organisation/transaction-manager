@@ -2,6 +2,7 @@ package com.ia.transaction.parser;
 
 import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
@@ -12,14 +13,15 @@ import java.util.function.Supplier;
 
 public interface CsvParser<R> extends TransactionParser<File, List<R>> {
 
-    default List<R> parse(File input, Supplier<Class<R>> beanType, IntSupplier lineToSkip) {
+    default List<R> parse(File input, Supplier<Class<R>> beanType, IntSupplier lineToSkip, Supplier<Logger> loggerSupplier) {
         try (Reader reader = new FileReader(input.getAbsolutePath())) {
             return new CsvToBeanBuilder<R>(reader)
                     .withSkipLines(lineToSkip.getAsInt())
                     .withType(beanType.get())
                     .build().parse();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            loggerSupplier.get().error("Error occurred during the csv parsing. message =[{}]",e.getLocalizedMessage(), e);
+            throw new RuntimeException(e.getLocalizedMessage(), e);
         }
     }
 }

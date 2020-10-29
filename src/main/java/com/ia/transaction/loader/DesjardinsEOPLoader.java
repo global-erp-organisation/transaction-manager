@@ -1,6 +1,5 @@
 package com.ia.transaction.loader;
 
-import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.ia.transaction.parser.TransactionParser;
 import com.ia.transaction.repository.CategoryRepository;
@@ -23,13 +22,13 @@ public class DesjardinsEOPLoader implements TransactionLoader<File, DesjardinsEO
 
     @Override
     public void load(File source) {
-        parser.parse(source).stream().map(this::build)
+        parser.parse(source).stream().map(this::load)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(transactionRepository::saveAndFlush);
     }
 
-    private Optional<Transaction> build(DesjardinsEOPTransaction tr) {
-        return  build(tr, transactionRepository,categoryRepository, tr.getDescription(), tr.getCategory(), Transaction::map);
+    private Optional<Transaction> load(DesjardinsEOPTransaction tr) {
+        return  convert(tr, transactionRepository,categoryRepository, tr.getDescription(), tr.getCategory(), Transaction::map);
     }
 }
