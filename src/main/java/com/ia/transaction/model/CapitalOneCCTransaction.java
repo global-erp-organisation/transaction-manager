@@ -1,5 +1,6 @@
 package com.ia.transaction.model;
 
+import com.ia.transaction.view.TransactionScope;
 import com.opencsv.bean.CsvBindByPosition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

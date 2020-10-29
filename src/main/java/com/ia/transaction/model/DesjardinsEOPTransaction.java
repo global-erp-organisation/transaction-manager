@@ -29,4 +29,6 @@ public class DesjardinsEOPTransaction {
     private String credit;
     @CsvBindByPosition(position = 13)
     private String balance;
+    @Builder.Default
+    private String category = "NA";
 }

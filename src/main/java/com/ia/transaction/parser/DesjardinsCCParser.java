@@ -51,11 +51,17 @@ public class DesjardinsCCParser implements  TransactionParser<File, List<Desjard
         final Predicate<String> toKeep = l -> !l.isEmpty();
         final String[] tr = Stream.of(line.split(StringUtils.SPACE)).map(String::trim).filter(toKeep).collect(Collectors.joining(StringUtils.SPACE)).split(StringUtils.SPACE);
         final String desc = String.join(StringUtils.SPACE, Arrays.copyOfRange(tr, 5, tr.length - 1));
-        final String amount = tr[tr.length - 1];
+        final String amount = tr[tr.length - 1].replace(",",".");
         final String trDate = String.join(StringUtils.EMPTY, Arrays.copyOfRange(tr, 0, 2)) + year;
         final String regDate = String.join(StringUtils.EMPTY, Arrays.copyOfRange(tr, 2, 4)) + year;
         final String trNumber = tr[4];
-        return DesjardinsCCTransaction.builder().registerDate(regDate).transactionAmount(amount).transactionDate(trDate).transactionDescription(desc).transactionNumber(trNumber).build();
+        final String debit = amount.endsWith("CR")? StringUtils.EMPTY : amount;
+        final String credit = amount.endsWith("CR")? amount.replace("CR", StringUtils.EMPTY): StringUtils.EMPTY;
+        return DesjardinsCCTransaction.builder().registerDate(regDate).transactionAmount(amount)
+                .debit(debit)
+                .credit(credit)
+                .category("NA")
+                .transactionDate(trDate).description(desc).transactionNumber(trNumber).build();
     }
 
     private LocalDate getDateFromFile(String fileName) {

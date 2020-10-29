@@ -11,6 +11,10 @@ public class DesjardinsCCTransaction {
     private String transactionNumber;
     private String transactionDate;
     private String registerDate;
-    private String transactionDescription;
+    private String description;
     private String transactionAmount;
+    private String debit;
+    private String credit;
+    @Builder.Default
+    private String category = "NA";
 }

@@ -14,7 +14,7 @@ public class CapitalOneCCParser implements CsvParser<CapitalOneCCTransaction> {
 
     @Override
     public List<CapitalOneCCTransaction> parse(File input) {
-        return parse(input, () -> CapitalOneCCTransaction.class)
+        return parse(input, () -> CapitalOneCCTransaction.class, () -> 1)
                 .stream().filter(t -> StringUtils.isNotEmpty(t.getAccountNumber())).collect(Collectors.toList());
     }
 }

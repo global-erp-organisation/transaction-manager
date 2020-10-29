@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class DesjardinsEopParser implements CsvParser<DesjardinsEOPTransaction> {
     @Override
     public List<DesjardinsEOPTransaction> parse(File input) {
-        return parse(input, () -> DesjardinsEOPTransaction.class)
+        return parse(input, () -> DesjardinsEOPTransaction.class, () -> 0)
                 .stream().filter(t -> StringUtils.isNotEmpty(t.getAccountType())).collect(Collectors.toList());
     }
 }
