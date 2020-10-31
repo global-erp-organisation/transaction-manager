@@ -1,6 +1,5 @@
 package com.ia.transaction.repository;
 
-import com.ia.transaction.view.Transaction;
 import com.ia.transaction.view.TransactionCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 

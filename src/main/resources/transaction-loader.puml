@@ -52,6 +52,12 @@ enum TransactionScope{
  +PERSONAL
  +BUSINESS
 }
+}
+package mapper #DDDDDD {
+ class TransactionMapper<O> {
+ +map(O,catFunction, converter): Optional<Transaction>
+ }
+}
 
 CapitaleOneLoader <..TransactionParser: use <
 DesjardinsCCLoader <..TransactionParser: use <
@@ -65,4 +71,5 @@ Transaction <..TransactionScope: use <
 TransactionLoader <..JpaRepository: use <
 TransactionRepository <..Transaction: use <
 CategoryRepository <..TransactionCategory: use <
+TransactionLoader <.. TransactionMapper: use <
 @enduml

@@ -1,6 +1,5 @@
 package com.ia.transaction.parser;
 
-import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.opencsv.bean.CsvToBeanBuilder;
 import org.slf4j.Logger;
 

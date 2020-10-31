@@ -5,28 +5,15 @@ import com.ia.transaction.model.CapitalOneCCTransaction;
 import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.ia.transaction.model.ReportProperties;
-import com.ia.transaction.parser.TransactionParser;
-import com.ia.transaction.repository.CategoryRepository;
-import com.ia.transaction.repository.TransactionRepository;
-import com.ia.transaction.view.Transaction;
-import com.ia.transaction.view.TransactionCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RequiredArgsConstructor
