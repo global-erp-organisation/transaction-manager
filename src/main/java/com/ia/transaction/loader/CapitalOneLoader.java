@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class CapitalOneLoader implements  TransactionLoader<File, CapitalOneCCTransaction>{
+public class CapitalOneLoader implements TransactionLoader<File, CapitalOneCCTransaction> {
 
     private final TransactionParser<File, List<CapitalOneCCTransaction>> parser;
     private final CategoryRepository categoryRepository;
@@ -22,13 +22,6 @@ public class CapitalOneLoader implements  TransactionLoader<File, CapitalOneCCTr
 
     @Override
     public void load(File source) {
-        parser.parse(source).stream().map(this::load)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .forEach(transactionRepository::saveAndFlush);
-    }
-
-    private Optional<Transaction> load(CapitalOneCCTransaction tr) {
-        return  convert(tr, transactionRepository,categoryRepository, tr.getDescription(), tr.getCategory(), Transaction::map);
+        load(source, parser, transactionRepository, categoryRepository, CapitalOneCCTransaction::getCategory, Transaction::map);
     }
 }

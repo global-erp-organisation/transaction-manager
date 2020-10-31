@@ -1,5 +1,6 @@
 package com.ia.transaction.loader;
 
+import com.ia.transaction.model.CapitalOneCCTransaction;
 import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.parser.TransactionParser;
 import com.ia.transaction.repository.CategoryRepository;
@@ -22,13 +23,6 @@ public class DesjardinsCCLoader implements  TransactionLoader<File, DesjardinsCC
 
     @Override
     public void load(File source) {
-        parser.parse(source).stream().map(this::load)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .forEach(transactionRepository::saveAndFlush);
-    }
-
-    private Optional<Transaction> load(DesjardinsCCTransaction tr) {
-        return  convert(tr, transactionRepository,categoryRepository, tr.getDescription(), tr.getCategory(), Transaction::map);
+        load(source, parser, transactionRepository, categoryRepository, DesjardinsCCTransaction::getCategory, Transaction::map);
     }
 }
