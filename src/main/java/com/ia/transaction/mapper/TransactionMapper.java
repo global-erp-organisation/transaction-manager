@@ -14,13 +14,14 @@ import java.util.UUID;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-@Component
-public class TransactionMapper<O> {
+public abstract  class TransactionMapper<O> {
 
     private final CategoryRepository categoryRepository;
     private final TransactionRepository transactionRepository;
 
-    public Optional<Transaction> map(O raw, Function<O, String> catFunction, Converter<O, Transaction.TransactionBuilder> converter) {
+    public  abstract Optional<Transaction> map(O raw);
+
+    protected Optional<Transaction> map(O raw, Function<O, String> catFunction, Converter<O, Transaction.TransactionBuilder> converter) {
         final Function<O, Optional<Transaction>> transactionMapper = tr -> {
             final Transaction.TransactionBuilder builder = Objects.requireNonNull(converter.convert(tr)).transactionId(UUID.randomUUID().toString());
             final Transaction sample = builder.build();

@@ -4,7 +4,6 @@ import com.ia.transaction.mapper.TransactionMapper;
 import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.parser.TransactionParser;
 import com.ia.transaction.repository.TransactionRepository;
-import com.ia.transaction.view.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,6 @@ public class DesjardinsCCLoader implements  TransactionLoader<File, DesjardinsCC
 
     @Override
     public void load(File source) {
-        load(source, parser, repository, DesjardinsCCTransaction::getCategory, mapper, Transaction::map);
+        load(source, parser, repository, mapper);
     }
 }

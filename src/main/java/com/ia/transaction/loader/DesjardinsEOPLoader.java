@@ -4,7 +4,6 @@ import com.ia.transaction.mapper.TransactionMapper;
 import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.ia.transaction.parser.TransactionParser;
 import com.ia.transaction.repository.TransactionRepository;
-import com.ia.transaction.view.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,6 @@ public class DesjardinsEOPLoader implements TransactionLoader<File, DesjardinsEO
 
     @Override
     public void load(File source) {
-        load(source, parser, repository, DesjardinsEOPTransaction::getCategory, mapper, Transaction::map);
+        load(source, parser, repository, mapper);
     }
 }

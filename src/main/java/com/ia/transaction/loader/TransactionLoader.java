@@ -15,12 +15,7 @@ public interface TransactionLoader<S, O> {
 
     void load(S source);
 
-    default void load(S source, TransactionParser<S, List<O>> parser, TransactionRepository repository,
-                      Function<O, String> catFunction, TransactionMapper<O> mapper, Converter<O, Transaction.TransactionBuilder> converter) {
-        parser.parse(source).stream()
-                .map(o -> mapper.map(o, catFunction, converter))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .forEach(repository::saveAndFlush);
+    default void load(S source, TransactionParser<S, List<O>> parser, TransactionRepository repository, TransactionMapper<O> mapper) {
+        parser.parse(source).stream().map(mapper::map).filter(Optional::isPresent).map(Optional::get).forEach(repository::saveAndFlush);
     }
 }

@@ -1,5 +1,5 @@
 @startuml
-
+left to right direction
 package loader #DDDDDD{
   interface TransactionLoader<S,O> {
   }
@@ -54,8 +54,21 @@ enum TransactionScope{
 }
 }
 package mapper #DDDDDD {
- class TransactionMapper<O> {
- +map(O,catFunction, converter): Optional<Transaction>
+ abstract class TransactionMapper<O> {
+  +map(O):Optional<Transaction>
+ #map(O,catFunction, converter):Optional<Transaction>
+ }
+
+ class CapitaleOneMapper extends TransactionMapper{
+  +map(CapitaleOneCCTransaction):Optional<Transaction>
+ }
+
+ class DesjardinsCcMapper extends TransactionMapper {
+ +map(DesjardinsCCTransaction):Optional<Transaction>
+ }
+
+ class DesjardinsEopMapper extends TransactionMapper {
+    +map(DesjardinsEOPTransaction):Optional<Transaction>
  }
 }
 
@@ -72,4 +85,5 @@ TransactionLoader <..JpaRepository: use <
 TransactionRepository <..Transaction: use <
 CategoryRepository <..TransactionCategory: use <
 TransactionLoader <.. TransactionMapper: use <
+TransactionMapper <.. JpaRepository: use <
 @enduml
