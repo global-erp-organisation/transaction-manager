@@ -38,7 +38,7 @@ public class DesjardinsCCParser implements PdfParser<List<DesjardinsCCTransactio
         final Function<String, String> extractMonth = line -> line.substring(properties.getMonthBeginingIndex(), properties.getMonthEndingIndex());
         final int month = getDateFromFile(file.getName()).getMonthValue();
         final Predicate<String> trFilter = line -> Integer.parseInt(extractMonth.apply(line)) == month;
-        final Stream<String> lines = extractContent(file,()->properties,()->log).filter(l -> StringUtils.isNumeric(extractMonth.apply(l))).filter(trFilter);
+        final Stream<String> lines = extractContent(file, properties::getLineDelimitationPattern, () -> log).filter(l -> l.length() > properties.getMinimunLineLen()).filter(l -> StringUtils.isNumeric(extractMonth.apply(l))).filter(trFilter);
         return lines.map(l -> parseToRawTransaction(l, file)).collect(Collectors.toList());
     }
 

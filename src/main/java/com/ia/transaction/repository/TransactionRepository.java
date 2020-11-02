@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
-    Optional<Transaction> findByTransactionAmountAndTransactionDateAndTransactionDescriptionAndTransactionType(BigDecimal amount,
+    Optional<Transaction> findFirstByTransactionAmountAndTransactionDateAndTransactionDescriptionAndTransactionType(BigDecimal amount,
                                                                                                                String date, String description, TransactionType type);
 }

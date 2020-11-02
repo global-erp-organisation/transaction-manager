@@ -14,12 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CapitalOneLoader implements TransactionLoader<File, CapitalOneCCTransaction> {
 
-    private final TransactionParser<File, List<CapitalOneCCTransaction>> parser;
     private final TransactionRepository repository;
-    private final TransactionMapper<CapitalOneCCTransaction> mapper;
+    private final TransactionMapper<File, CapitalOneCCTransaction> mapper;
 
     @Override
-    public void load(File source) {
-        load(source, parser, repository, mapper);
+    public int load(File source) {
+        return load(source, repository, mapper);
     }
 }

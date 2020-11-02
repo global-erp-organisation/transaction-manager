@@ -1,6 +1,5 @@
 package com.ia.transaction.parser;
 
-import com.ia.transaction.model.ReportProperties;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -12,20 +11,20 @@ import java.util.stream.Stream;
 
 public interface PdfParser<R> extends TransactionParser<File, R> {
 
-    default Stream<String> extractContent(File source, Supplier<ReportProperties> prop, Supplier<Logger> log) {
+    default Stream<String> extractContent(File source, Supplier<String> delimit, Supplier<Logger> log) {
         try (final PDDocument document = PDDocument.load(source)) {
             if (!document.isEncrypted()) {
                 final PDFTextStripperByArea stripper = new PDFTextStripperByArea();
                 stripper.setSortByPosition(true);
                 final PDFTextStripper tStripper = new PDFTextStripper();
                 final String pdfFileInText = tStripper.getText(document);
-                return Stream.of(pdfFileInText.split(prop.get().getLineDelimitationPattern())).filter(l -> l.length() > prop.get().getMinimunLineLen());
+                return Stream.of(pdfFileInText.split(delimit.get()));
             } else {
                 log.get().error("[{}] is actually encrypted and we were unable to extract the content.", source.getAbsolutePath());
                 throw new IllegalArgumentException("The file " + source.getAbsolutePath() + "is encrypted");
             }
         } catch (Exception e) {
-            log.get().error("Error occured during the file processing. message=[{}]", e.getLocalizedMessage(), e);
+            log.get().error("Error occurred during the file processing. message=[{}]", e.getLocalizedMessage(), e);
             throw new RuntimeException(e.getLocalizedMessage(), e);
         }
     }

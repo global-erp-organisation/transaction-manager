@@ -36,7 +36,8 @@ public class Transaction {
     private TransactionCategory category;
     @Enumerated(EnumType.STRING)
     private TransactionScope scope;
-
+    @Enumerated(EnumType.STRING)
+    private Account account;
 
     public static TransactionBuilder map(CapitalOneCCTransaction from) {
         final BigDecimal amount = getAmount(from.getDebit(), from.getCredit());
@@ -46,6 +47,7 @@ public class Transaction {
                 .transactionDescription(from.getDescription())
                 .transactionDate(from.getTransactionDate())
                 .scope(getScope(from.getCategory()))
+                .account(Account.CAPITALE_ONE_CC)
                 .transactionType(type);
     }
 
@@ -57,6 +59,7 @@ public class Transaction {
                 .transactionDescription(from.getDescription())
                 .transactionDate(from.getTransactionDate())
                 .scope(getScope(from.getCategory()))
+                .account(Account.DESJARDINS_CC)
                 .transactionType(type);
     }
 
@@ -68,6 +71,7 @@ public class Transaction {
                 .transactionDescription(from.getDescription())
                 .transactionDate(from.getTransactionDate())
                 .scope(getScope(from.getCategory()))
+                .account(Account.DESJARDINS_EOP)
                 .transactionType(type);
     }
 

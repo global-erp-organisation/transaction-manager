@@ -14,12 +14,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DesjardinsCCLoader implements  TransactionLoader<File, DesjardinsCCTransaction> {
 
-    private final TransactionParser<File, List<DesjardinsCCTransaction>> parser;
     private final TransactionRepository repository;
-    private final TransactionMapper<DesjardinsCCTransaction> mapper;
+    private final TransactionMapper<File, DesjardinsCCTransaction> mapper;
 
     @Override
-    public void load(File source) {
-        load(source, parser, repository, mapper);
+    public int load(File source) {
+        return load(source, repository, mapper);
     }
 }
