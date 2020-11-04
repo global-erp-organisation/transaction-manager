@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Desjardins credit card implementation of the TransactionLoader interface
+ */
 @Component
 @RequiredArgsConstructor
 public class DesjardinsCCLoader implements  TransactionLoader<File, DesjardinsCCTransaction> {

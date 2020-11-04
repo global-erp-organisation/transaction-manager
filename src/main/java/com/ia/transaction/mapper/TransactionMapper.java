@@ -17,6 +17,11 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Transaction mapper specification
+ * @param <S> Source type  from where transactions are coming from
+ * @param <O> Output type
+ */
 @RequiredArgsConstructor
 @Slf4j
 public abstract class TransactionMapper<S, O> {
@@ -30,8 +35,20 @@ public abstract class TransactionMapper<S, O> {
         return transactions;
     }
 
+    /**
+     * Map the incoming raw item to a transaction object
+     * @param raw Raw item that need to be converted.
+     * @return The mapped transaction object.
+     */
     protected abstract Optional<Transaction> map(O raw);
 
+    /**
+     * Default mapping operation
+     * @param raw Raw item that need to be converted.
+     * @param catFunction function that compute the incoming item category
+     * @param converter Converter that help converting the raw item to a transaction object.
+     * @return The mapped transaction object.
+     */
     protected Optional<Transaction> map(O raw, Function<O, String> catFunction, Converter<O, TransactionBuilder> converter) {
         final TransactionBuilder builder = Objects.requireNonNull(converter.convert(raw)).transactionId(UUID.randomUUID().toString());
         final Transaction sample = builder.build();

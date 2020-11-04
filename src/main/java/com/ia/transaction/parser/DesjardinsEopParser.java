@@ -11,6 +11,9 @@ import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Desjardins checking account implementation of the CsvParser interface
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor

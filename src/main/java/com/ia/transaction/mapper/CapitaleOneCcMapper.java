@@ -11,6 +11,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Capitale One implementation of TransactionMapper
+ */
 @Component
 public class CapitaleOneCcMapper  extends  TransactionMapper<File, CapitalOneCCTransaction>{
 

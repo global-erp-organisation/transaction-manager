@@ -10,11 +10,23 @@ import java.util.List;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-public interface CsvParser<R> extends TransactionParser<File, List<R>> {
+/**
+ * csv file parsing specification
+ * @param <O> Output type
+ */
+public interface CsvParser<O> extends TransactionParser<File, List<O>> {
 
-    default List<R> parse(File input, Supplier<Class<R>> beanType, IntSupplier lineToSkip, Supplier<Logger> loggerSupplier) {
+    /**
+     * Default parsing operation for csv files.
+     * @param input file that need to be parsed.
+     * @param beanType ouput object type.
+     * @param lineToSkip number of lines to skip on top of the file.
+     * @param loggerSupplier logger supplier.
+     * @return Collection of parsed items.
+     */
+    default List<O> parse(File input, Supplier<Class<O>> beanType, IntSupplier lineToSkip, Supplier<Logger> loggerSupplier) {
         try (Reader reader = new FileReader(input.getAbsolutePath())) {
-            return new CsvToBeanBuilder<R>(reader)
+            return new CsvToBeanBuilder<O>(reader)
                     .withSkipLines(lineToSkip.getAsInt())
                     .withType(beanType.get())
                     .build().parse();

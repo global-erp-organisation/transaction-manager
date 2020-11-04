@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Capitale One credit card implementation of the CsvParser interface
+ */
 @Slf4j
 @Component
 public class CapitalOneCCParser implements CsvParser<CapitalOneCCTransaction> {

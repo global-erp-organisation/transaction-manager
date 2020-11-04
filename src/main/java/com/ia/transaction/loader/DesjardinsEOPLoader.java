@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 
+/**
+ * Desjardins checking account implementation of the TransactionLoader interface
+ */
 @Component
 @RequiredArgsConstructor
 public class DesjardinsEOPLoader implements TransactionLoader<File, DesjardinsEOPTransaction> {

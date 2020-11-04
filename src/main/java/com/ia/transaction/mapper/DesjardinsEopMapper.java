@@ -11,6 +11,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Desjardins checking account implementation of TransactionMapper
+ */
 @Component
 public class DesjardinsEopMapper extends TransactionMapper<File, DesjardinsEOPTransaction> {
 

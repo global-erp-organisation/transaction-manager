@@ -11,6 +11,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Desjardins credit card implementation of TransactionMapper
+ */
 @Component
 public class DesjardinsCcMapper extends TransactionMapper<File, DesjardinsCCTransaction> {
 

@@ -22,6 +22,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Desjardins credit card implementation of the PdfParser interface
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor

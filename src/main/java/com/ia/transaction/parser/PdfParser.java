@@ -9,8 +9,18 @@ import java.io.File;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public interface PdfParser<R> extends TransactionParser<File, R> {
-
+/**
+ * Portal document file parsing specification.
+ * @param <O> output type
+ */
+public interface PdfParser<O> extends TransactionParser<File, O> {
+    /**
+     * Default parsing operation that extract the content of pdf file into a stream of lines.
+     * @param source file that need to be parsed.
+     * @param delimit file line delimitation supplier function.
+     * @param log logger supplier
+     * @return Stream of string that encapsulate all the line extracted from the file.
+     */
     default Stream<String> extractContent(File source, Supplier<String> delimit, Supplier<Logger> log) {
         try (final PDDocument document = PDDocument.load(source)) {
             if (!document.isEncrypted()) {
