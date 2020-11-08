@@ -1,7 +1,7 @@
 package com.ia.transaction.mapper;
 
 import com.ia.transaction.model.CapitalOneCCTransaction;
-import com.ia.transaction.parser.TransactionParser;
+import com.ia.transaction.parser.Parser;
 import com.ia.transaction.repository.CategoryRepository;
 import com.ia.transaction.repository.TransactionRepository;
 import com.ia.transaction.view.Transaction;
@@ -18,12 +18,12 @@ import java.util.Optional;
 public class CapitaleOneCcMapper  extends  TransactionMapper<File, CapitalOneCCTransaction>{
 
 
-    public CapitaleOneCcMapper(CategoryRepository categoryRepository, TransactionRepository transactionRepository, TransactionParser<File, List<CapitalOneCCTransaction>> parser) {
+    public CapitaleOneCcMapper(CategoryRepository categoryRepository, TransactionRepository transactionRepository, Parser<File, List<CapitalOneCCTransaction>> parser) {
         super(categoryRepository, transactionRepository, parser);
     }
 
     @Override
-    protected Optional<Transaction> map(CapitalOneCCTransaction raw) {
+    public Optional<Transaction> map(CapitalOneCCTransaction raw) {
         return map(raw, CapitalOneCCTransaction::getCategory, Transaction::map);
     }
 }

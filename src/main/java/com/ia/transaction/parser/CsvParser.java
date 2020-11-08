@@ -12,9 +12,9 @@ import java.util.function.Supplier;
 
 /**
  * csv file parsing specification
- * @param <O> Output type
+ * @param <O> data output type
  */
-public interface CsvParser<O> extends TransactionParser<File, List<O>> {
+public interface CsvParser<O> extends Parser<File, List<O>> {
 
     /**
      * Default parsing operation for csv files.

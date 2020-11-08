@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 
 /**
  * Portal document file parsing specification.
- * @param <O> output type
+ * @param <O> data output type
  */
-public interface PdfParser<O> extends TransactionParser<File, O> {
+public interface PdfParser<O> extends Parser<File, O> {
     /**
      * Default parsing operation that extract the content of pdf file into a stream of lines.
      * @param source file that need to be parsed.

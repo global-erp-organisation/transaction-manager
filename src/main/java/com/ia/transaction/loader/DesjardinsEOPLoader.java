@@ -19,7 +19,7 @@ public class DesjardinsEOPLoader implements TransactionLoader<File, DesjardinsEO
     private final TransactionMapper<File, DesjardinsEOPTransaction> mapper;
 
     @Override
-    public int load(File source) {
+    public long load(File source) {
         return load(source, repository, mapper);
     }
 }

@@ -2,11 +2,11 @@ package com.ia.transaction.parser;
 
 /**
  * Transaction parsing specification
- * @param <S> Source type
- * @param <O> Output type
+ * @param <S> data source type
+ * @param <O> data output type
  */
 @FunctionalInterface
-public interface TransactionParser<S,O> {
+public interface Parser<S,O> {
     /**
      * Parse the input source to output objects
      * @param input Source to parse

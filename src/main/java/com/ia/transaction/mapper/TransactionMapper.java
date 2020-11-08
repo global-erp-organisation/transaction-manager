@@ -1,7 +1,7 @@
 package com.ia.transaction.mapper;
 
 import com.ia.transaction.view.Transaction.TransactionBuilder;
-import com.ia.transaction.parser.TransactionParser;
+import com.ia.transaction.parser.Parser;
 import com.ia.transaction.repository.CategoryRepository;
 import com.ia.transaction.repository.TransactionRepository;
 import com.ia.transaction.view.Transaction;
@@ -19,16 +19,18 @@ import java.util.stream.Collectors;
 
 /**
  * Transaction mapper specification
- * @param <S> Source type  from where transactions are coming from
- * @param <O> Output type
+ *
+ * @param <S> data source type  from where transactions are coming from
+ * @param <O> data output type
  */
 @RequiredArgsConstructor
 @Slf4j
-public abstract class TransactionMapper<S, O> {
+public abstract class TransactionMapper<S, O> implements Mapper<S, O, Transaction> {
     private final CategoryRepository categoryRepository;
     private final TransactionRepository transactionRepository;
-    private final TransactionParser<S, List<O>> parser;
+    private final Parser<S, List<O>> parser;
 
+    @Override
     public List<Transaction> mapFrom(S source) {
         final List<Transaction> transactions = parser.parse(source).stream().map(this::map).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
         log.info("{} new transaction(s) have been extracted from {}", transactions.size(), source);
@@ -36,17 +38,11 @@ public abstract class TransactionMapper<S, O> {
     }
 
     /**
-     * Map the incoming raw item to a transaction object
-     * @param raw Raw item that need to be converted.
-     * @return The mapped transaction object.
-     */
-    protected abstract Optional<Transaction> map(O raw);
-
-    /**
      * Default mapping operation
-     * @param raw Raw item that need to be converted.
+     *
+     * @param raw         Raw item that need to be converted.
      * @param catFunction function that compute the incoming item category
-     * @param converter Converter that help converting the raw item to a transaction object.
+     * @param converter   Converter that help converting the raw item to a transaction object.
      * @return The mapped transaction object.
      */
     protected Optional<Transaction> map(O raw, Function<O, String> catFunction, Converter<O, TransactionBuilder> converter) {

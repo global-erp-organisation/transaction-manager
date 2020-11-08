@@ -1,7 +1,10 @@
 @startuml
-left to right direction
+
 package loader #DDDDDD{
-  interface TransactionLoader<S,O> {
+ interface Loader<S,O,T> {
+   +load(S): long
+ }
+  interface TransactionLoader<S,O> extends Loader {
   }
   class CapitaleOneLoader implements TransactionLoader {
   }
@@ -11,14 +14,14 @@ package loader #DDDDDD{
   }
 }
 package parser #DDDDDD{
-interface TransactionParser<T,R> {
+interface Parser<T,R> {
   +parse(T):R
 }
-interface CsvParser<R> extends TransactionParser {
+interface CsvParser<R> extends Parser {
   +parse(File): List<R>
   +default parse(File): List<R>
 }
-interface PdfParser<R> extends TransactionParser {
+interface PdfParser<R> extends Parser {
 +parse(File): List<R>
 +default extrctContent(File):Stream<String>
 }
@@ -54,9 +57,11 @@ enum TransactionScope{
 }
 }
 package mapper #DDDDDD {
- abstract class TransactionMapper<S,O> {
- +mapFrom(S):List<Transaction>
- #map(O):Optional<Transaction>
+interface Mapper<S,O,T> {
+ +mapFrom(S):List<T>
+ +map(O):Optional<T>
+}
+ abstract class TransactionMapper<S,O> implements Mapper {
  #map(O,catFunction, converter):Optional<Transaction>
  }
 
@@ -73,19 +78,16 @@ package mapper #DDDDDD {
  }
 }
 
-CapitaleOneMapper <..TransactionParser: use <
-DesjardinsCcMapper <..TransactionParser: use <
-DesjardinsEopMapper <..TransactionParser: use <
+TransactionMapper <..Parser: use <
 CapitaleOneCCParser <..CapitaleOneCCTransaction: use <
 DesjardinsCCParser <.. DesjardinsCCTransaction: use <
 DesjardinsEopParser <.. DesjardinsEOPTransaction: use <
 Transaction <..TransactionCategory: use <
 Transaction <..TransactionType: use <
 Transaction <..TransactionScope: use <
-TransactionLoader <..TransactionRepository: use <
+TransactionLoader <..JpaRepository: use <
 TransactionRepository <..Transaction: use <
 CategoryRepository <..TransactionCategory: use <
 TransactionLoader <.. TransactionMapper: use <
-TransactionMapper <.. TransactionRepository: use <
-TransactionMapper <.. CategoryRepository: use <
+TransactionMapper <.. JpaRepository: use <
 @enduml

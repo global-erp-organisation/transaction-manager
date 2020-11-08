@@ -19,7 +19,7 @@ public class CapitalOneLoader implements TransactionLoader<File, CapitalOneCCTra
     private final TransactionMapper<File, CapitalOneCCTransaction> mapper;
 
     @Override
-    public int load(File source) {
+    public long load(File source) {
         return load(source, repository, mapper);
     }
 }

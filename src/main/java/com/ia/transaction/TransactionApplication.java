@@ -1,10 +1,12 @@
 package com.ia.transaction;
 
+import com.ia.transaction.loader.Loader;
 import com.ia.transaction.loader.TransactionLoader;
 import com.ia.transaction.model.CapitalOneCCTransaction;
 import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.model.DesjardinsEOPTransaction;
 import com.ia.transaction.model.ReportProperties;
+import com.ia.transaction.view.Transaction;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -23,9 +25,9 @@ import java.util.Map;
 @Slf4j
 public class TransactionApplication implements CommandLineRunner {
 
-    private final TransactionLoader<File, CapitalOneCCTransaction> coLoader;
-    private final TransactionLoader<File, DesjardinsCCTransaction> desjCCLoader;
-    private final TransactionLoader<File, DesjardinsEOPTransaction> desEOPLoader;
+    private final Loader<File, CapitalOneCCTransaction, Transaction> coLoader;
+    private final Loader<File, DesjardinsCCTransaction, Transaction> desjCCLoader;
+    private final Loader<File, DesjardinsEOPTransaction, Transaction> desEOPLoader;
     private final ReportProperties reportProperties;
     private final ResourceLoader loader;
 
@@ -36,16 +38,16 @@ public class TransactionApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         final ReportProperties.Locations locations = reportProperties.getLocations();
-        final Map<Path, Integer> result = new HashMap<>();
+        final Map<Path, Long> result = new HashMap<>();
         //capitale one credit card path
         final Path coFolder = getPath(locations.getCapitaleOne());
         //Desjardins checking account path.
         final Path eopFolder = getPath(locations.getDesjardinsEop());
         //Desjardins credit card path
         final Path dccfolder = getPath(locations.getDesjardinsCc());
-        result.put(coFolder, Files.list(coFolder).parallel().mapToInt(p -> coLoader.load(p.toFile())).sum());
-        result.put(eopFolder, Files.list(eopFolder).parallel().mapToInt(p -> desEOPLoader.load(p.toFile())).sum());
-        result.put(dccfolder, Files.list(dccfolder).parallel().mapToInt(p -> desjCCLoader.load(p.toFile())).sum());
+        result.put(coFolder, Files.list(coFolder).parallel().mapToLong(p -> coLoader.load(p.toFile())).sum());
+        result.put(eopFolder, Files.list(eopFolder).parallel().mapToLong(p -> desEOPLoader.load(p.toFile())).sum());
+        result.put(dccfolder, Files.list(dccfolder).parallel().mapToLong(p -> desjCCLoader.load(p.toFile())).sum());
         result.forEach((k, v) -> log.info("{} transaction(s) have been loaded from {}", v, k));
     }
 
