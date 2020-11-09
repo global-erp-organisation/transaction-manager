@@ -13,14 +13,14 @@ import java.util.Optional;
  */
 public interface Mapper<S, O, T> {
     /**
-     * Map the incoming raw item to a transaction object
+     * Map the incoming raw item to a target object
      * @param raw Raw item that need to be converted.
-     * @return The mapped transaction object.
+     * @return The mapped target object.
      */
      Optional<T> map(O raw);
 
     /**
-     * Map the source into a collection of target data type.
+     * Map the source content into a collection of target data type.
      * @param source data source.
      * @return Collection on target data type.
      */

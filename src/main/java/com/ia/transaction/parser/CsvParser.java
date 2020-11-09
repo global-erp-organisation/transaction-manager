@@ -19,7 +19,7 @@ public interface CsvParser<O> extends Parser<File, List<O>> {
     /**
      * Default parsing operation for csv files.
      * @param input file that need to be parsed.
-     * @param beanType ouput object type.
+     * @param beanType output object type.
      * @param lineToSkip number of lines to skip on top of the file.
      * @param loggerSupplier logger supplier.
      * @return Collection of parsed items.

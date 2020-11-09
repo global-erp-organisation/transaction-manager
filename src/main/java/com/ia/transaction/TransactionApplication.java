@@ -1,7 +1,6 @@
 package com.ia.transaction;
 
 import com.ia.transaction.loader.Loader;
-import com.ia.transaction.loader.TransactionLoader;
 import com.ia.transaction.model.CapitalOneCCTransaction;
 import com.ia.transaction.model.DesjardinsCCTransaction;
 import com.ia.transaction.model.DesjardinsEOPTransaction;
