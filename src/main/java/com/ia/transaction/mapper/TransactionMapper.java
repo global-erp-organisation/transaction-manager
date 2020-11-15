@@ -30,9 +30,9 @@ public abstract class TransactionMapper<S, O> implements Mapper<S, O, Transactio
     private final TransactionRepository transactionRepository;
     private final Parser<S, List<O>> parser;
 
-    @Override
+   @Override
     public List<Transaction> mapFrom(S source) {
-        final List<Transaction> transactions = parser.parse(source).stream().map(this::map).filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+        final List<Transaction> transactions = mapFrom(source, () -> parser);
         log.info("{} new transaction(s) have been extracted from {}", transactions.size(), source);
         return transactions;
     }
